@@ -1,144 +1,126 @@
-import { type ImageSource } from "expo-image";
-import * as ImagePicker from "expo-image-picker";
-import * as MediaLibrary from "expo-media-library";
-import { useRef, useState } from "react";
-import { StyleSheet, View } from "react-native";
-import { GestureHandlerRootView } from "react-native-gesture-handler";
-import { captureRef } from "react-native-view-shot";
+import Ionicons from "@expo/vector-icons/Ionicons";
+import React, { useState } from "react";
+import { Image, StyleSheet, TouchableOpacity, View } from "react-native";
+import Swiper from "react-native-deck-swiper";
 
-import Button from "@/components/Button";
-import CircleButton from "@/components/CircleButton";
-import EmojiList from "@/components/EmojiList";
-import EmojiPicker from "@/components/EmojiPicker";
-import EmojiSticker from "@/components/EmojiSticker";
-import IconButton from "@/components/IconButton";
-import ImageViewer from "@/components/ImageViewer";
+const cards = [
+  { id: 1, image: require("@/assets/images/background-image.png") },
+  { id: 1, image: require("@/assets/images/emoji1.png") },
+  { id: 2, image: require("@/assets/images/emoji2.png") },
+  { id: 3, image: require("@/assets/images/emoji3.png") },
+  { id: 4, image: require("@/assets/images/emoji4.png") },
+];
 
-const PlaceholderImage = require("@/assets/images/background-image.png");
+type Card = {
+  id: number;
+  image: any;
+};
 
-export default function Index() {
-  const [selectedImage, setSelectedImage] = useState<string | undefined>(
-    undefined
-  );
-  const [showAppOptions, setShowAppOptions] = useState<boolean>(false);
-  const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
-  const [pickedEmoji, setPickedEmoji] = useState<ImageSource | undefined>(
-    undefined
-  );
-  const [status, requestPermission] = MediaLibrary.usePermissions();
-  const imageRef = useRef<View>(null);
+export default function App() {
+  const [cardIndex, setCardIndex] = useState<number>(0);
+  let swiperRef: Swiper<Card> | null = null;
 
-  if (status === null) {
-    requestPermission();
-  }
+  const onSwiped = (index: number): void => {
+    console.log("Card swiped:", index);
+  };
 
-  const pickImageAsync = async () => {
-    let result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ["images"],
-      allowsEditing: true,
-      quality: 1,
-    });
+  const renderCard = (card: Card): JSX.Element => {
+    return (
+      <View>
+        <Image source={card.image} resizeMode="cover" />
+      </View>
+    );
+  };
 
-    if (!result.canceled) {
-      setSelectedImage(result.assets[0].uri);
-      setShowAppOptions(true);
-    } else {
-      alert("You did not select any image.");
+  const handleNope = (): void => {
+    if (swiperRef) {
+      swiperRef.swipeLeft();
     }
   };
 
-  const onReset = () => {
-    setShowAppOptions(false);
-  };
-
-  const onAddSticker = () => {
-    setIsModalVisible(true);
-  };
-
-  const onModalClose = () => {
-    setIsModalVisible(false);
-  };
-
-  const onSaveImageAsync = async () => {
-    try {
-      const localUri = await captureRef(imageRef, {
-        height: 440,
-        quality: 1,
-      });
-
-      await MediaLibrary.saveToLibraryAsync(localUri);
-      if (localUri) {
-        alert("Saved!");
-      }
-    } catch (e) {
-      console.log(e);
+  const handleLike = (): void => {
+    if (swiperRef) {
+      swiperRef.swipeRight();
     }
   };
 
   return (
-    <GestureHandlerRootView style={styles.container}>
-      <View style={styles.imageContainer}>
-        <View ref={imageRef} collapsable={false}>
-          <ImageViewer
-            imgSource={PlaceholderImage}
-            selectedImage={selectedImage}
-          />
-          {pickedEmoji && (
-            <EmojiSticker imageSize={40} stickerSource={pickedEmoji} />
-          )}
-        </View>
+    <View style={styles.container}>
+      <View style={styles.swiperContainer}>
+        <Swiper
+          ref={(ref) => (swiperRef = ref)}
+          cards={cards}
+          renderCard={renderCard}
+          onSwiped={onSwiped}
+          onSwipedAll={() => console.log("All cards swiped!")}
+          cardIndex={cardIndex}
+          backgroundColor={"transparent"}
+          stackSize={3}
+          animateCardOpacity
+          overlayLabels={{
+            left: {
+              title: "NOPE",
+              style: {
+                label: {
+                  backgroundColor: "red",
+                  color: "white",
+                  fontSize: 24,
+                },
+                wrapper: {
+                  flexDirection: "column",
+                  alignItems: "flex-end",
+                  justifyContent: "flex-start",
+                  marginTop: 30,
+                  marginLeft: -30,
+                },
+              },
+            },
+            right: {
+              title: "LIKE",
+              style: {
+                label: {
+                  backgroundColor: "green",
+                  color: "white",
+                  fontSize: 24,
+                },
+                wrapper: {
+                  flexDirection: "column",
+                  alignItems: "flex-start",
+                  justifyContent: "flex-start",
+                  marginTop: 30,
+                  marginLeft: 30,
+                },
+              },
+            },
+          }}
+        />
       </View>
-      {showAppOptions ? (
-        <View style={styles.optionsContainer}>
-          <View style={styles.optionsRow}>
-            <IconButton icon="refresh" label="Reset" onPress={onReset} />
-            <CircleButton onPress={onAddSticker} />
-            <IconButton
-              icon="save-alt"
-              label="Save"
-              onPress={onSaveImageAsync}
-            />
-          </View>
-        </View>
-      ) : (
-        <View style={styles.footerContainer}>
-          <Button
-            theme="primary"
-            label="Choose a photo"
-            onPress={pickImageAsync}
-          />
-          <Button
-            label="Use this photo"
-            onPress={() => setShowAppOptions(true)}
-          />
-        </View>
-      )}
-      <EmojiPicker isVisible={isModalVisible} onClose={onModalClose}>
-        <EmojiList onSelect={setPickedEmoji} onCloseModal={onModalClose} />
-      </EmojiPicker>
-    </GestureHandlerRootView>
+      <View style={styles.buttonsContainer}>
+        <TouchableOpacity onPress={handleNope}>
+          <Ionicons name="close-circle-outline" size={60} color="red" />
+        </TouchableOpacity>
+        <TouchableOpacity onPress={handleLike}>
+          <Ionicons name="heart-circle-outline" size={60} color="green" />
+        </TouchableOpacity>
+      </View>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#25292e",
+    backgroundColor: "#fff",
     alignItems: "center",
   },
-  imageContainer: {
+  swiperContainer: {
     flex: 1,
   },
-  footerContainer: {
+  buttonsContainer: {
     flex: 1 / 3,
-    alignItems: "center",
-  },
-  optionsContainer: {
-    position: "absolute",
-    bottom: 80,
-  },
-  optionsRow: {
-    alignItems: "center",
     flexDirection: "row",
+    justifyContent: "space-evenly",
+    alignItems: "center",
+    width: "100%",
   },
 });
