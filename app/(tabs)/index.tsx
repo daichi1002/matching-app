@@ -130,6 +130,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#fff",
+    zIndex: -1,
   },
   swiperContainer: {
     flex: 1,
