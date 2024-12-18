@@ -1,20 +1,17 @@
+import { CardComponent } from "@/components/Card";
+import { Card } from "@/types";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import React, { useRef, useState } from "react";
-import { Image, StyleSheet, TouchableOpacity, View } from "react-native";
+import { StyleSheet, TouchableOpacity, View } from "react-native";
 import Swiper from "react-native-deck-swiper";
 
-const cards = [
+const cards: Card[] = [
   { id: 1, image: require("@/assets/images/woman1.jpg") },
   { id: 2, image: require("@/assets/images/woman2.jpg") },
   { id: 3, image: require("@/assets/images/woman3.jpg") },
   { id: 4, image: require("@/assets/images/woman4.jpg") },
   { id: 5, image: require("@/assets/images/woman5.jpg") },
 ];
-
-type Card = {
-  id: number;
-  image: string;
-};
 
 export default function App() {
   const [cardIndex, setCardIndex] = useState<number>(0);
@@ -63,11 +60,7 @@ export default function App() {
             <Swiper
               ref={swiperRef}
               cards={cards}
-              renderCard={(card) => (
-                <View style={styles.card}>
-                  <Image source={card.image} style={styles.image} />
-                </View>
-              )}
+              renderCard={(card) => <CardComponent card={card} />}
               onSwiped={onSwiped}
               onSwipedAll={onSwipedAll}
               cardIndex={cardIndex}
@@ -134,13 +127,6 @@ const styles = StyleSheet.create({
   },
   swiperContainer: {
     flex: 1,
-  },
-  card: {
-    flex: 2 / 3,
-  },
-  image: {
-    width: "100%",
-    height: "100%",
   },
   buttonsContainer: {
     flexDirection: "row",
