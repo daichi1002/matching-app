@@ -95,7 +95,16 @@ export default function ChatsScreen() {
           renderItem={({ item }) => (
             <TouchableOpacity
               style={styles.messageItem}
-              onPress={() => router.push(`/chats/${item.id}`)} // 動的ルートに遷移
+              onPress={() =>
+                router.push({
+                  pathname: `/chats/[id]`,
+                  params: {
+                    id: item.id,
+                    name: item.name,
+                    image: item.image,
+                  },
+                })
+              }
             >
               <View style={styles.messageItem}>
                 <Image source={item.image} style={styles.messageImage} />
