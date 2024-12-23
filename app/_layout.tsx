@@ -1,6 +1,7 @@
 import { Ionicons } from "@expo/vector-icons";
 import { Stack } from "expo-router";
 import { StatusBar } from "expo-status-bar";
+import React from "react";
 import { Text, TouchableOpacity, View } from "react-native";
 
 export default function RootLayout() {
@@ -32,6 +33,22 @@ export default function RootLayout() {
           }}
         />
         <Stack.Screen name="+not-found" options={{ headerShown: false }} />
+        <Stack.Screen
+          name="chats/[id]"
+          options={{
+            headerTitle: () => (
+              <View style={{ flexDirection: "row", alignItems: "center" }}>
+                <Ionicons name="walk-sharp" size={24} color="#FF69B4" />
+                <Text
+                  style={{ color: "#FF69B4", fontSize: 24, fontWeight: "bold" }}
+                >
+                  Chinder
+                </Text>
+              </View>
+            ),
+            headerBackTitle: "戻る",
+          }}
+        />
       </Stack>
       <StatusBar style="light" />
     </>

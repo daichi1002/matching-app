@@ -13,6 +13,7 @@ export default function TabLayout() {
         headerShown: false,
       }}
     >
+      {/* Search タブ */}
       <Tabs.Screen
         name="index"
         options={{
@@ -27,7 +28,7 @@ export default function TabLayout() {
         }}
       />
       <Tabs.Screen
-        name="about"
+        name="chats"
         options={{
           title: "",
           tabBarIcon: ({ color, focused }) => (

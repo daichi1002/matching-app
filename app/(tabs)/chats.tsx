@@ -1,9 +1,11 @@
+import { useRouter } from "expo-router";
 import {
   FlatList,
   Image,
   ScrollView,
   StyleSheet,
   Text,
+  TouchableOpacity,
   View,
 } from "react-native";
 
@@ -67,7 +69,8 @@ const messages = [
   },
 ];
 
-export default function AboutScreen() {
+export default function ChatsScreen() {
+  const router = useRouter();
   return (
     <View style={styles.container}>
       <View style={styles.rowContainer}>
@@ -90,19 +93,24 @@ export default function AboutScreen() {
           data={messages}
           keyExtractor={(item) => item.id.toString()}
           renderItem={({ item }) => (
-            <View style={styles.messageItem}>
-              <Image source={item.image} style={styles.messageImage} />
-              <View style={styles.messageContent}>
-                <Text style={styles.messageName}>{item.name}</Text>
-                <Text
-                  style={styles.messageText}
-                  numberOfLines={1}
-                  ellipsizeMode="tail"
-                >
-                  {item.message}
-                </Text>
+            <TouchableOpacity
+              style={styles.messageItem}
+              onPress={() => router.push(`/chats/${item.id}`)} // 動的ルートに遷移
+            >
+              <View style={styles.messageItem}>
+                <Image source={item.image} style={styles.messageImage} />
+                <View style={styles.messageContent}>
+                  <Text style={styles.messageName}>{item.name}</Text>
+                  <Text
+                    style={styles.messageText}
+                    numberOfLines={1}
+                    ellipsizeMode="tail"
+                  >
+                    {item.message}
+                  </Text>
+                </View>
               </View>
-            </View>
+            </TouchableOpacity>
           )}
           showsVerticalScrollIndicator={false}
         />
