@@ -9,14 +9,6 @@ import {
   View,
 } from "react-native";
 
-const images = [
-  { id: 1, image: require("@/assets/images/woman1.jpg") },
-  { id: 2, image: require("@/assets/images/woman2.jpg") },
-  { id: 3, image: require("@/assets/images/woman3.jpg") },
-  { id: 4, image: require("@/assets/images/woman4.jpg") },
-  { id: 5, image: require("@/assets/images/woman5.jpg") },
-];
-
 const messages = [
   {
     id: 1,
@@ -49,24 +41,6 @@ const messages = [
     message: "よろしくお願いします！",
     image: require("@/assets/images/woman5.jpg"),
   },
-  {
-    id: 6,
-    name: "中村さん",
-    message: "お疲れさまです！",
-    image: require("@/assets/images/woman2.jpg"),
-  },
-  {
-    id: 7,
-    name: "田中さん",
-    message: "こんにちは！",
-    image: require("@/assets/images/woman1.jpg"),
-  },
-  {
-    id: 8,
-    name: "佐藤さん",
-    message: "今日の予定はどう？",
-    image: require("@/assets/images/woman2.jpg"),
-  },
 ];
 
 export default function ChatsScreen() {
@@ -80,9 +54,23 @@ export default function ChatsScreen() {
           horizontal={true}
           showsHorizontalScrollIndicator={false}
         >
-          {images.map((image) => {
+          {messages.map((item) => {
             return (
-              <Image key={image.id} source={image.image} style={styles.image} />
+              <TouchableOpacity
+                style={styles.messageItem}
+                onPress={() =>
+                  router.push({
+                    pathname: `/chats/[id]`,
+                    params: {
+                      id: item.id,
+                      name: item.name,
+                      image: item.image,
+                    },
+                  })
+                }
+              >
+                <Image key={item.id} source={item.image} style={styles.image} />
+              </TouchableOpacity>
             );
           })}
         </ScrollView>
