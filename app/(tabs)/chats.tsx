@@ -57,6 +57,7 @@ export default function ChatsScreen() {
           {messages.map((item) => {
             return (
               <TouchableOpacity
+                key={item.id}
                 style={styles.messageItem}
                 onPress={() =>
                   router.push({
@@ -82,6 +83,7 @@ export default function ChatsScreen() {
           keyExtractor={(item) => item.id.toString()}
           renderItem={({ item }) => (
             <TouchableOpacity
+              key={item.id} // ここにキーを追加
               style={styles.messageItem}
               onPress={() =>
                 router.push({

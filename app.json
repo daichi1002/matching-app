@@ -9,8 +9,7 @@
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "ios": {
-      "supportsTablet": true,
-      "bundleIdentifier": "com.daichi1002.matchingapp"
+      "supportsTablet": true
     },
     "android": {
       "adaptiveIcon": {
@@ -37,20 +36,6 @@
     ],
     "experiments": {
       "typedRoutes": true
-    },
-    "extra": {
-      "router": {
-        "origin": false
-      },
-      "eas": {
-        "projectId": "7cc46280-a5a2-4cf2-a84d-2cfcf9779004"
-      }
-    },
-    "runtimeVersion": {
-      "policy": "appVersion"
-    },
-    "updates": {
-      "url": "https://u.expo.dev/7cc46280-a5a2-4cf2-a84d-2cfcf9779004"
     }
   }
 }
