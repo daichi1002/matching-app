@@ -22,7 +22,7 @@ interface Message {
   timestamp: string;
 }
 
-const ChatDetailScreen = () => {
+export default function ChatDetailScreen() {
   const { id, name, image } = useLocalSearchParams();
   const imageSource = image as ImageSourcePropType;
   const [messages, setMessages] = useState<Message[]>([
@@ -118,7 +118,7 @@ const ChatDetailScreen = () => {
       </KeyboardAvoidingView>
     </>
   );
-};
+}
 
 const styles = StyleSheet.create({
   container: {
@@ -202,5 +202,3 @@ const styles = StyleSheet.create({
     marginTop: 5,
   },
 });
-
-export default ChatDetailScreen;

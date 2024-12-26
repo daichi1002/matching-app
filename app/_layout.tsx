@@ -1,8 +1,8 @@
-import { Ionicons } from "@expo/vector-icons";
+import { HeaderRightComponent } from "@/components/HeaderRight";
+import { HeaderTitleComponent } from "@/components/HeaderTitle";
 import { Stack } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import React from "react";
-import { Text, TouchableOpacity, View } from "react-native";
 
 export default function RootLayout() {
   return (
@@ -11,25 +11,8 @@ export default function RootLayout() {
         <Stack.Screen
           name="(tabs)"
           options={{
-            headerTitle: () => (
-              <View style={{ flexDirection: "row", alignItems: "center" }}>
-                <Ionicons name="walk-sharp" size={24} color="#FF69B4" />
-                <Text
-                  style={{ color: "#FF69B4", fontSize: 24, fontWeight: "bold" }}
-                >
-                  Chinder
-                </Text>
-              </View>
-            ),
-            headerRight: () => (
-              <TouchableOpacity onPress={() => alert("Notifications")}>
-                <Ionicons
-                  name="notifications-outline"
-                  size={24}
-                  color="#a9a9a9"
-                />
-              </TouchableOpacity>
-            ),
+            headerTitle: () => <HeaderTitleComponent />,
+            headerRight: () => <HeaderRightComponent />,
           }}
         />
         <Stack.Screen name="+not-found" options={{ headerShown: false }} />
@@ -37,6 +20,12 @@ export default function RootLayout() {
           name="chats/[id]"
           options={{
             headerBackTitle: "戻る",
+          }}
+        />
+        <Stack.Screen
+          name="profile/edit"
+          options={{
+            headerBackVisible: false,
           }}
         />
       </Stack>

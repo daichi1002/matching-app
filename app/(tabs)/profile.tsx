@@ -2,6 +2,7 @@ import ImageViewer from "@/components/ImageViewer";
 import { Ionicons } from "@expo/vector-icons";
 import * as ImagePicker from "expo-image-picker";
 import * as MediaLibrary from "expo-media-library";
+import { useRouter } from "expo-router";
 import React, { useRef, useState } from "react";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 
@@ -13,6 +14,7 @@ const user = {
 };
 
 export default function ProfileScreen() {
+  const router = useRouter();
   const [selectedImage, setSelectedImage] = useState<string | undefined>(
     undefined
   );
@@ -43,7 +45,10 @@ export default function ProfileScreen() {
   };
 
   const handleEdit = () => {
-    alert("Edit button pressed");
+    router.push({
+      pathname: "/profile/edit",
+      params: { user: JSON.stringify(user) },
+    });
   };
   return (
     <View style={styles.container}>
@@ -71,7 +76,7 @@ export default function ProfileScreen() {
           <Text style={styles.buttonText}>写真の追加</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity style={styles.button}>
+        <TouchableOpacity style={styles.button} onPress={() => handleEdit()}>
           <Ionicons name="pencil-outline" size={24} color="#000" />
           <Text style={styles.buttonText}>プロフィール編集</Text>
         </TouchableOpacity>
