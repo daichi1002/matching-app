@@ -41,7 +41,7 @@ export default function ProfileScreen() {
   };
 
   const handleSettings = () => {
-    alert("Settings button pressed");
+    router.push({ pathname: "/settings" });
   };
 
   const handleEdit = () => {
@@ -66,7 +66,10 @@ export default function ProfileScreen() {
 
       {/* Buttons Section */}
       <View style={styles.buttonsRow}>
-        <TouchableOpacity style={styles.button}>
+        <TouchableOpacity
+          style={styles.button}
+          onPress={() => handleSettings()}
+        >
           <Ionicons name="settings-outline" size={24} color="#000" />
           <Text style={styles.buttonText}>設定</Text>
         </TouchableOpacity>

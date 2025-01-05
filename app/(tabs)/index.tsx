@@ -1,4 +1,4 @@
-import { CardComponent } from "@/components/Card";
+import CardComponent from "@/components/Card";
 import { Card } from "@/types";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import React, { useRef, useState } from "react";

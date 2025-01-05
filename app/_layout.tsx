@@ -1,5 +1,5 @@
-import { HeaderRightComponent } from "@/components/HeaderRight";
-import { HeaderTitleComponent } from "@/components/HeaderTitle";
+import HeaderRightComponent from "@/components/HeaderRight";
+import HeaderTitleComponent from "@/components/HeaderTitle";
 import { Stack } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import React from "react";
@@ -24,6 +24,12 @@ export default function RootLayout() {
         />
         <Stack.Screen
           name="profile/edit"
+          options={{
+            headerBackVisible: false,
+          }}
+        />
+        <Stack.Screen
+          name="settings/index"
           options={{
             headerBackVisible: false,
           }}

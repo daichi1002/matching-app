@@ -1,7 +1,7 @@
 import { Ionicons } from "@expo/vector-icons";
 import { Text, View } from "react-native";
 
-export const HeaderTitleComponent = () => {
+export default function HeaderTitleComponent() {
   return (
     <View style={{ flexDirection: "row", alignItems: "center" }}>
       <Ionicons name="walk-sharp" size={24} color="#FF69B4" />
@@ -10,4 +10,4 @@ export const HeaderTitleComponent = () => {
       </Text>
     </View>
   );
-};
+}

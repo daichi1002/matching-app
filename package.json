@@ -20,6 +20,7 @@
   "dependencies": {
     "@expo/metro-runtime": "~4.0.0",
     "@expo/vector-icons": "^14.0.2",
+    "@ptomasroos/react-native-multi-slider": "^2.2.2",
     "@react-navigation/bottom-tabs": "^7.0.0",
     "@react-navigation/native": "^7.0.0",
     "expo": "~52.0.17",
