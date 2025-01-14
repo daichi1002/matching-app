@@ -10,6 +10,8 @@ export type Card = {
 export type User = {
   id: number;
   name: string;
+  gender: string;
+  birthdate: string;
   age: number;
   image: any;
 };

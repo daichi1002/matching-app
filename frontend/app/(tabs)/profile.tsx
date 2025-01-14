@@ -1,23 +1,25 @@
 import ImageViewer from "@/components/ImageViewer";
+import { User } from "@/types";
 import { Ionicons } from "@expo/vector-icons";
 import * as ImagePicker from "expo-image-picker";
 import * as MediaLibrary from "expo-media-library";
 import { useRouter } from "expo-router";
-import React, { useRef, useState } from "react";
-import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
-
-const user = {
-  id: 1,
-  name: "佐藤",
-  age: 24,
-  image: require("@/assets/images/woman2.jpg"),
-};
+import React, { useEffect, useRef, useState } from "react";
+import {
+  ActivityIndicator,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
 
 export default function ProfileScreen() {
   const router = useRouter();
   const [selectedImage, setSelectedImage] = useState<string | undefined>(
     undefined
   );
+  const [user, setUser] = useState<User>();
+  const [loading, setLoading] = useState(true);
 
   const [status, requestPermission] = MediaLibrary.usePermissions();
   const imageRef = useRef<View>(null);
@@ -25,6 +27,22 @@ export default function ProfileScreen() {
   if (status === null) {
     requestPermission();
   }
+
+  useEffect(() => {
+    const fetchUser = async () => {
+      // API request to fetch user data
+      try {
+        const response = await fetch("http://192.168.11.6:8080/users/1");
+        const data = await response.json();
+        setUser(data);
+      } catch (error) {
+        console.error(error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchUser();
+  }, []);
 
   const pickImageAsync = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
@@ -50,6 +68,15 @@ export default function ProfileScreen() {
       params: { user: JSON.stringify(user) },
     });
   };
+
+  if (loading || !user) {
+    return (
+      <View style={styles.container}>
+        <ActivityIndicator size="large" color="#0000ff" />
+      </View>
+    );
+  }
+
   return (
     <View style={styles.container}>
       {/* Profile Section */}
